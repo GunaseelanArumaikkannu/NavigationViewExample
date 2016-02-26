@@ -1,29 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.brightspot.voicerewards.HomeActivity">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/navigation_item_1"
-            android:checked="true"
             android:icon="@drawable/ic_home_white_24dp"
-            android:title="@string/title_home"/>
+            android:title="@string/title_home" />
         <item
             android:id="@+id/navigation_item_2"
             android:icon="@drawable/ic_bookmark_white_24dp"
-            android:title="@string/title_bookmarks"/>
+            android:title="@string/title_bookmarks" />
         <item
             android:id="@+id/navigation_item_3"
             android:icon="@drawable/ic_favorite_white_24dp"
-            android:title="@string/title_favorite"/>
+            android:title="@string/title_favorite" />
         <item
             android:id="@+id/navigation_item_4"
             android:icon="@drawable/ic_payment_white_24dp"
-            android:title="@string/title_payment"/>
+            android:title="@string/title_payment" />
         <item
             android:id="@+id/navigation_item_5"
             android:icon="@drawable/ic_settings_white_24dp"
-            android:title="@string/title_settings"/>
+            android:title="@string/title_settings" />
     </group>
 </menu>

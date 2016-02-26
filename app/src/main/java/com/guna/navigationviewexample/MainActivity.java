@@ -1,21 +1,22 @@
 package com.guna.navigationviewexample;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationDrawerView.NavigationViewCallbacks {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
 
     /**
@@ -23,77 +24,70 @@ public class MainActivity extends AppCompatActivity
      */
     private CharSequence mTitle;
 
-    private TextView txtTitle;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final NavigationDrawerView navigationDrawerView = (NavigationDrawerView) findViewById(R.id.navigation_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        txtTitle = (TextView) toolbar.findViewById(R.id.txtTitle);
-        TextView txtName = (TextView) navigationDrawerView.findViewById(R.id.txtName);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        TextView txtName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.txtName);
         txtName.setText(getResources().getString(R.string.title_name));
-        txtTitle.setText(getResources().getString(R.string.title_home));
+        navigationView.setNavigationItemSelectedListener(this);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, PlaceholderFragment.newInstance(1))
+                .commit();
+
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle(getResources().getString(R.string.title_home));
         mTitle = getTitle();
-
-        navigationDrawerView.initDrawer(this);
-        // Set up the drawer.
-        navigationDrawerView.setUp(
-                R.id.navigation_view,
-                (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
     }
 
-
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        int position = 0;
+        switch (id) {
+            case R.id.navigation_item_1:
                 mTitle = getString(R.string.title_home);
+                position = 0;
                 break;
-            case 2:
+            case R.id.navigation_item_2:
                 mTitle = getString(R.string.title_bookmarks);
+                position = 1;
                 break;
-            case 3:
+            case R.id.navigation_item_3:
                 mTitle = getString(R.string.title_favorite);
+                position = 2;
                 break;
-            case 4:
+            case R.id.navigation_item_4:
                 mTitle = getString(R.string.title_payment);
+                position = 3;
                 break;
-            case 5:
+            case R.id.navigation_item_5:
                 mTitle = getString(R.string.title_settings);
+                position = 4;
                 break;
         }
-        if (txtTitle != null)
-            txtTitle.setText(mTitle);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-       /* int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-*/
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onNavigationViewItemSelected(int position) {
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle(mTitle);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
                 .commit();
+        return true;
     }
 
     /**
@@ -132,6 +126,9 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onViewCreated(View view, Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
+            int section_number = getArguments().getInt(ARG_SECTION_NUMBER);
+            int[] rainbow = getActivity().getResources().getIntArray(R.array.colors);
+            view.setBackgroundColor(rainbow[section_number - 1]);
             section_label = (TextView) view.findViewById(R.id.section_label);
         }
 
@@ -141,13 +138,5 @@ public class MainActivity extends AppCompatActivity
             int section_number = getArguments().getInt(ARG_SECTION_NUMBER);
             section_label.setText(String.valueOf(section_number));
         }
-
-        @Override
-        public void onAttach(Context context) {
-            super.onAttach(context);
-            ((MainActivity) context).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
     }
-
 }

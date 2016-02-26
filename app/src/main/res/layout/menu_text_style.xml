@@ -4,5 +4,5 @@
     android:typeface="sans"
     android:textStyle="bold"
     android:textAppearance="@style/TextAppearance.AppCompat.Large"
-    android:textColor="@color/DeepPink4"
+    android:textColor="@color/colorPrimary"
     android:layout_height="match_parent" />

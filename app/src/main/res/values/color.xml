@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="DeepPink4">#8b0a50</color>
-    <color name="DeepPink4Lite">#990066</color>
-    <color name="accent">#006699</color>
+    <color name="colorPrimary">#990066</color>
+    <color name="colorPrimaryDark">#8b0a50</color>
+    <color name="colorAccent">#006699</color>
+
+    <color name="one">#FFCDD2</color>
+    <color name="two">#E1BEE7</color>
+    <color name="three">#D1C4E9</color>
+    <color name="four">#BBDEFB</color>
+    <color name="five">#FFECB3</color>
+
+    <array name="colors">
+        <item>@color/one</item>
+        <item>@color/two</item>
+        <item>@color/three</item>
+        <item>@color/four</item>
+        <item>@color/five</item>
+    </array>
 </resources>
